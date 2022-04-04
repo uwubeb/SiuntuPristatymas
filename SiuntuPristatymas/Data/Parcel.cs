@@ -1,6 +1,9 @@
-﻿namespace Siuntos.Data.Models;
+﻿using Siuntos.Data.Models;
+using SiuntuPristatymas.Data.Base;
 
-public class Parcel
+namespace SiuntuPristatymas.Data;
+
+public class Parcel : BaseEntity
 {
     public int Length { get; set; }
     public int Width { get; set; }

@@ -1,6 +1,8 @@
-﻿namespace Siuntos.Data.Models;
+﻿using SiuntuPristatymas.Data.Base;
 
-public class ParcelHistory
+namespace SiuntuPristatymas.Data;
+
+public class ParcelHistory : BaseEntity
 {
     public TimeSpan Time { get; set; }
     //Change to enum

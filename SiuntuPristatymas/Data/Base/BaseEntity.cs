@@ -1,6 +1,6 @@
-﻿namespace Siuntos.Data.Models.Base;
+﻿namespace SiuntuPristatymas.Data.Base;
 
 public class BaseEntity
 {
-    public int id { get; set; }
+    public int Id { get; set; }
 }

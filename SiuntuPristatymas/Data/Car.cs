@@ -1,6 +1,9 @@
-﻿namespace Siuntos.Data.Models;
+﻿using SiuntuPristatymas.Data;
+using SiuntuPristatymas.Data.Base;
 
-public class Car
+namespace Siuntos.Data.Models;
+
+public class Car : BaseEntity
 {
     public string Number { get; set; }
     public int Filled { get; set; }

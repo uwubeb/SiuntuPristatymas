@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Siuntos.Data.Models;
+namespace SiuntuPristatymas.Data;
 
 public class ApplicationUser : IdentityUser
 {

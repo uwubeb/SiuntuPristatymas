@@ -1,6 +1,8 @@
-﻿namespace Siuntos.Data.Models;
+﻿using SiuntuPristatymas.Data.Base;
 
-public class DeliveryRoute
+namespace SiuntuPristatymas.Data;
+
+public class DeliveryRoute : BaseEntity
 {
     public string City { get; set; }
     public int Distance { get; set; }
