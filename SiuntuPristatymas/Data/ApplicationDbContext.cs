@@ -9,5 +9,8 @@ namespace SiuntuPristatymas.Data
             : base(options)
         {
         }
+
+        public DbSet<Parcel> Parcels { get; set; }
+
     }
 }
