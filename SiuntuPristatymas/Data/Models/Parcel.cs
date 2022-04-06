@@ -11,6 +11,9 @@ public class Parcel : BaseEntity
     public int Weight { get; set; }
     public ParcelStatusEnum Status { get; set; }
     
+    //Change to enum
+    public string Status { get; set; }
+    
     public int? DeliveryId { get; set; }
     public Delivery? Delivery { get; set; }
     

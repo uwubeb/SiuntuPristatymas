@@ -5,7 +5,8 @@ namespace Siuntos.Data.Models;
 
 public class Car : BaseEntity
 {
-    public string Number { get; set; }
+    
+    public string PlateNumber { get; set; }
     public int Filled { get; set; }
     public int MaxCapacity { get; set; }
     
