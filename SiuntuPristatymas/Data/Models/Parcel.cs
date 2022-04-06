@@ -9,6 +9,7 @@ public class Parcel : BaseEntity
     public int Width { get; set; }
     public int Height { get; set; }
     public int Weight { get; set; }
+    
     //Change to enum
     public string Status { get; set; }
     

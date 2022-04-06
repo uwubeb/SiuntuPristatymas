@@ -5,6 +5,7 @@ namespace SiuntuPristatymas.Data;
 public class ParcelHistory : BaseEntity
 {
     public TimeSpan Time { get; set; }
+    
     //Change to enum
     public string Status { get; set; }
     
