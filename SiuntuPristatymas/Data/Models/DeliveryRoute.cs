@@ -10,3 +10,4 @@ public class DeliveryRoute : BaseEntity
     
     public List<Delivery> Deliveries { get; set; }
 }
+

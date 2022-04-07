@@ -3,17 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SiuntuPristatymas.Data;
 
 #nullable disable
 
-namespace SiuntuPristatymas.Data.Migrations
+namespace SiuntuPristatymas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220406173059_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,13 +240,13 @@ namespace SiuntuPristatymas.Data.Migrations
                     b.Property<int>("MaxCapacity")
                         .HasColumnType("int");
 
-                    b.Property<string>("Number")
+                    b.Property<string>("PlateNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Car");
+                    b.ToTable("Cars");
                 });
 
             modelBuilder.Entity("SiuntuPristatymas.Data.Address", b =>
@@ -273,7 +275,7 @@ namespace SiuntuPristatymas.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Address");
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("SiuntuPristatymas.Data.Delivery", b =>
@@ -299,8 +301,9 @@ namespace SiuntuPristatymas.Data.Migrations
                     b.Property<int>("FilledCapacity")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -308,7 +311,7 @@ namespace SiuntuPristatymas.Data.Migrations
 
                     b.HasIndex("DeliveryRouteId");
 
-                    b.ToTable("Delivery");
+                    b.ToTable("Deliveries");
                 });
 
             modelBuilder.Entity("SiuntuPristatymas.Data.DeliveryRoute", b =>
@@ -331,7 +334,7 @@ namespace SiuntuPristatymas.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DeliveryRoute");
+                    b.ToTable("DeliveryRoutes");
                 });
 
             modelBuilder.Entity("SiuntuPristatymas.Data.Parcel", b =>
@@ -354,8 +357,9 @@ namespace SiuntuPristatymas.Data.Migrations
                     b.Property<int>("Length")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Weight")
                         .HasColumnType("int");
@@ -383,17 +387,18 @@ namespace SiuntuPristatymas.Data.Migrations
                     b.Property<int>("ParcelId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Time")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeSpan>("Time")
+                        .HasColumnType("time");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ParcelId");
 
-                    b.ToTable("ParcelHistory");
+                    b.ToTable("ParcelHistories");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
