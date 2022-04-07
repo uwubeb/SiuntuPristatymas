@@ -3,19 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SiuntuPristatymas.Data;
 
 #nullable disable
 
-namespace SiuntuPristatymas.Migrations
+namespace SiuntuPristatymas.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220406173059_initial")]
-    partial class initial
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -240,13 +238,13 @@ namespace SiuntuPristatymas.Migrations
                     b.Property<int>("MaxCapacity")
                         .HasColumnType("int");
 
-                    b.Property<string>("PlateNumber")
+                    b.Property<string>("Number")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cars");
+                    b.ToTable("Car", (string)null);
                 });
 
             modelBuilder.Entity("SiuntuPristatymas.Data.Address", b =>
@@ -275,7 +273,7 @@ namespace SiuntuPristatymas.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Address", (string)null);
                 });
 
             modelBuilder.Entity("SiuntuPristatymas.Data.Delivery", b =>
@@ -301,9 +299,8 @@ namespace SiuntuPristatymas.Migrations
                     b.Property<int>("FilledCapacity")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -311,7 +308,7 @@ namespace SiuntuPristatymas.Migrations
 
                     b.HasIndex("DeliveryRouteId");
 
-                    b.ToTable("Deliveries");
+                    b.ToTable("Delivery", (string)null);
                 });
 
             modelBuilder.Entity("SiuntuPristatymas.Data.DeliveryRoute", b =>
@@ -334,7 +331,7 @@ namespace SiuntuPristatymas.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DeliveryRoutes");
+                    b.ToTable("DeliveryRoute", (string)null);
                 });
 
             modelBuilder.Entity("SiuntuPristatymas.Data.Parcel", b =>
@@ -357,9 +354,8 @@ namespace SiuntuPristatymas.Migrations
                     b.Property<int>("Length")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("Weight")
                         .HasColumnType("int");
@@ -373,7 +369,7 @@ namespace SiuntuPristatymas.Migrations
 
                     b.HasIndex("DeliveryId");
 
-                    b.ToTable("Parcels");
+                    b.ToTable("Parcels", (string)null);
                 });
 
             modelBuilder.Entity("SiuntuPristatymas.Data.ParcelHistory", b =>
@@ -387,18 +383,17 @@ namespace SiuntuPristatymas.Migrations
                     b.Property<int>("ParcelId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
-                    b.Property<TimeSpan>("Time")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ParcelId");
 
-                    b.ToTable("ParcelHistories");
+                    b.ToTable("ParcelHistory", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

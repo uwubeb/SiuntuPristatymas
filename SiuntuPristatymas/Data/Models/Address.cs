@@ -1,7 +1,6 @@
-﻿using Siuntos.Data.Models;
-using SiuntuPristatymas.Data.Base;
+﻿using SiuntuPristatymas.Data.Base;
 
-namespace SiuntuPristatymas.Data;
+namespace SiuntuPristatymas.Data.Models;
 
 public class Address : BaseEntity
 {

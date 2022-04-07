@@ -1,4 +1,6 @@
-﻿namespace SiuntuPristatymas.Data.Dtos;
+﻿using SiuntuPristatymas.Data.Models;
+
+namespace SiuntuPristatymas.Data.Dtos;
 
 public class ParcelListItemDto
 {

@@ -1,4 +1,5 @@
 ﻿using SiuntuPristatymas.Data;
+using SiuntuPristatymas.Data.Models;
 
 namespace SiuntuPristatymas.Repositories;
 

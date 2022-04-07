@@ -1,7 +1,6 @@
-﻿using SiuntuPristatymas.Data;
-using SiuntuPristatymas.Data.Base;
+﻿using SiuntuPristatymas.Data.Base;
 
-namespace Siuntos.Data.Models;
+namespace SiuntuPristatymas.Data.Models;
 
 public class Car : BaseEntity
 {

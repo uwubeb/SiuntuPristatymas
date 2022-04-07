@@ -1,6 +1,6 @@
 ﻿using SiuntuPristatymas.Data.Base;
 
-namespace SiuntuPristatymas.Data;
+namespace SiuntuPristatymas.Data.Models;
 
 public class DeliveryRoute : BaseEntity
 {

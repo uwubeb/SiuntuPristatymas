@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SiuntuPristatymas.Data;
+using SiuntuPristatymas.Data.Models;
 using SiuntuPristatymas.Services;
 
 namespace SiuntuPristatymas.Controllers
@@ -41,6 +42,7 @@ namespace SiuntuPristatymas.Controllers
             var parcel = await _context.Parcels
                 .Include(p => p.Address)
                 .Include(p => p.Delivery)
+                .Include(p => p.ParcelHistory)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (parcel == null)
             {
@@ -65,6 +67,7 @@ namespace SiuntuPristatymas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Length,Width,Height,Weight,Status,DeliveryId,AddressId,Id")] Parcel parcel)
         {
+            parcel.ParcelHistory = new List<ParcelHistory>();
             if (ModelState.IsValid)
             {
                 _context.Add(parcel);
