@@ -13,19 +13,20 @@ namespace SiuntuPristatymas.Controllers
 {
     public class ParcelController : Controller
     {
-        // private readonly ApplicationDbContext _context;
-        private readonly IParcelService _parcelService;
+        private readonly ApplicationDbContext _context;
+        // private readonly IParcelService _parcelService;
 
-        public ParcelController( IParcelService parcelService)
+        public ParcelController(IParcelService parcelService, ApplicationDbContext context)
         {
-            // _context = context;
-            _parcelService = parcelService;
+            _context = context;
+            // _parcelService = parcelService;
         }
         
         // GET: Parcel
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Parcels.Include(p => p.Address).Include(p => p.Delivery);
+            // var parcels = await _parcelService.GetAll();
             return View(await applicationDbContext.ToListAsync());
         }
 

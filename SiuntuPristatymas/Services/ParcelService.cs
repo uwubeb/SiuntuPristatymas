@@ -7,7 +7,7 @@ public class ParcelService : IParcelService
 
     public Task<List<ParcelDto>> GetAll()
     {
-        throw new NotImplementedException();
+            throw new NotImplementedException();
     }
     public Task<ParcelDto?> GetById(Guid id)
     {
