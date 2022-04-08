@@ -1,7 +1,6 @@
-﻿using Siuntos.Data.Models;
-using SiuntuPristatymas.Data.Base;
+﻿using SiuntuPristatymas.Data.Base;
 
-namespace SiuntuPristatymas.Data;
+namespace SiuntuPristatymas.Data.Models;
 
 public class Parcel : BaseEntity
 {
@@ -10,15 +9,20 @@ public class Parcel : BaseEntity
     public int Height { get; set; }
     public int Weight { get; set; }
     public ParcelStatusEnum Status { get; set; }
-    
-    //Change to enum
-    public string Status { get; set; }
-    
+
     public int? DeliveryId { get; set; }
     public Delivery? Delivery { get; set; }
     
     public int AddressId { get; set; }
-    public Address Address { get; set; }
+    //nullable for Create model binding. Should not accept null value.
+    public virtual Address? Address { get; set; }
     
-    public List<ParcelHistory> ParcelHistory { get; set; }
+    public virtual ICollection<ParcelHistory> ParcelHistory { get; set; }
+    
+    
+    public Parcel()
+    {
+        ParcelHistory = new List<ParcelHistory>();
+    }
+
 }

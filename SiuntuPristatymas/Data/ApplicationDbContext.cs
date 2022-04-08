@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Siuntos.Data.Models;
+using SiuntuPristatymas.Data.Models;
 
 namespace SiuntuPristatymas.Data
 {
@@ -10,6 +10,7 @@ namespace SiuntuPristatymas.Data
             : base(options)
         {
             this.Database.EnsureCreated();
+            
         }
 
         public DbSet<Parcel> Parcels { get; set; }
@@ -22,5 +23,8 @@ namespace SiuntuPristatymas.Data
         public DbSet<ParcelHistory> ParcelHistories { get; set; }
 
         public DbSet<Address> Addresses { get; set; }
+        
+
     }
+    
 }

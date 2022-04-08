@@ -1,7 +1,6 @@
-﻿using SiuntuPristatymas.Data;
-using SiuntuPristatymas.Data.Base;
+﻿using SiuntuPristatymas.Data.Base;
 
-namespace Siuntos.Data.Models;
+namespace SiuntuPristatymas.Data.Models;
 
 public class Car : BaseEntity
 {
@@ -10,6 +9,11 @@ public class Car : BaseEntity
     public int Filled { get; set; }
     public int MaxCapacity { get; set; }
     
-    public List<Delivery> Deliveries { get; set; }
+    public virtual ICollection<Delivery> Deliveries { get; set; }
+    
+    public Car()
+    {
+        Deliveries = new List<Delivery>();
+    }
     
 }
