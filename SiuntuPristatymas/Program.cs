@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SiuntuPristatymas.Data;
+using SiuntuPristatymas.Data.Models;
+using SiuntuPristatymas.Repositories;
 using SiuntuPristatymas.Services;
 
 
@@ -19,7 +21,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 builder.Services
-    .AddScoped<IParcelService, ParcelService>();
+    .AddScoped<IRepository<Parcel>, ParcelRepository>();
 
 builder.Services.AddHostedService<DatabaseInitializationService>();
 

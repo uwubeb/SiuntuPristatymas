@@ -19,6 +19,7 @@ public interface IRepository<TEntity> where TEntity : BaseEntity
 
     Task<int> Count(Expression<Func<TEntity, bool>>? expression = null);
     Task<bool> Exists(Expression<Func<TEntity, bool>> expression);
+    Task<bool> Exists(int id);
     
     IQueryable<TEntity> GetQueryable();
     Task<TProjection?> GetProjection<TProjection>(int id, Expression<Func<TEntity, TProjection>> projectionExpression);

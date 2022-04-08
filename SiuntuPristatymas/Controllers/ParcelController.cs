@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SiuntuPristatymas.Data;
 using SiuntuPristatymas.Data.Models;
+using SiuntuPristatymas.Repositories;
 using SiuntuPristatymas.Services;
 
 namespace SiuntuPristatymas.Controllers
@@ -15,20 +16,19 @@ namespace SiuntuPristatymas.Controllers
     public class ParcelController : Controller
     {
         private readonly ApplicationDbContext _context;
-        // private readonly IParcelService _parcelService;
+        private readonly IRepository<Parcel> _parcelRepository;
 
-        public ParcelController(IParcelService parcelService, ApplicationDbContext context)
+        public ParcelController(IRepository<Parcel> parcelRepository, ApplicationDbContext context)
         {
             _context = context;
-            // _parcelService = parcelService;
+            _parcelRepository = parcelRepository;
         }
         
         // GET: Parcel
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Parcels.Include(p => p.Address).Include(p => p.Delivery);
-            // var parcels = await _parcelService.GetAll();
-            return View(await applicationDbContext.ToListAsync());
+            var parcels = await _parcelRepository.GetAll();
+            return View(parcels);
         }
 
         // GET: Parcel/Details/5
@@ -38,12 +38,7 @@ namespace SiuntuPristatymas.Controllers
             {
                 return NotFound();
             }
-
-            var parcel = await _context.Parcels
-                .Include(p => p.Address)
-                .Include(p => p.Delivery)
-                .Include(p => p.ParcelHistory)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var parcel = await _parcelRepository.GetById(id.Value);
             if (parcel == null)
             {
                 return NotFound();
@@ -70,8 +65,9 @@ namespace SiuntuPristatymas.Controllers
             // parcel.ParcelHistory = new List<ParcelHistory>();
             if (ModelState.IsValid)
             {
-                _context.Add(parcel);
-                await _context.SaveChangesAsync();
+                await _parcelRepository.Create(parcel);
+                // _context.Add(parcel);
+                // await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", parcel.AddressId);
@@ -86,8 +82,8 @@ namespace SiuntuPristatymas.Controllers
             {
                 return NotFound();
             }
-
-            var parcel = await _context.Parcels.FindAsync(id);
+            var parcel = await _parcelRepository.GetById(id.Value);
+            // var parcel = await _context.Parcels.FindAsync(id);
             if (parcel == null)
             {
                 return NotFound();
@@ -113,12 +109,13 @@ namespace SiuntuPristatymas.Controllers
             {
                 try
                 {
-                    _context.Update(parcel);
-                    await _context.SaveChangesAsync();
+                    await _parcelRepository.Update(parcel);
+                    // _context.Update(parcel);
+                    // await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ParcelExists(parcel.Id))
+                    if (! (await ParcelExists(parcel.Id)))
                     {
                         return NotFound();
                     }
@@ -142,10 +139,11 @@ namespace SiuntuPristatymas.Controllers
                 return NotFound();
             }
 
-            var parcel = await _context.Parcels
-                .Include(p => p.Address)
-                .Include(p => p.Delivery)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var parcel = await _parcelRepository.GetById(id.Value);
+            // var parcel = await _context.Parcels
+            //     .Include(p => p.Address)
+            //     .Include(p => p.Delivery)
+            //     .FirstOrDefaultAsync(m => m.Id == id);
             if (parcel == null)
             {
                 return NotFound();
@@ -159,15 +157,18 @@ namespace SiuntuPristatymas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var parcel = await _context.Parcels.FindAsync(id);
-            _context.Parcels.Remove(parcel);
-            await _context.SaveChangesAsync();
+            var parcel = await _parcelRepository.GetById(id);
+            await _parcelRepository.Delete(parcel);
+            // var parcel = await _context.Parcels.FindAsync(id);
+            // _context.Parcels.Remove(parcel);
+            // await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ParcelExists(int id)
+        private async Task<bool> ParcelExists(int id)
         {
-            return _context.Parcels.Any(e => e.Id == id);
+            // return _context.Parcels.Any(e => e.Id == id);
+            return await _parcelRepository.Exists(id);
         }
     }
 }
