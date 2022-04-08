@@ -9,6 +9,10 @@ public class Address : BaseEntity
     public string Number { get; set; }
     public string PostCode { get; set; }
     
-    public List<Parcel> Parcels { get; set; }
+    public virtual ICollection<Parcel> Parcels { get; set; }
     
+    public Address()
+    {
+        Parcels = new List<Parcel>();
+    }
 }

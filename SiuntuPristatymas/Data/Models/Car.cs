@@ -9,6 +9,11 @@ public class Car : BaseEntity
     public int Filled { get; set; }
     public int MaxCapacity { get; set; }
     
-    public List<Delivery> Deliveries { get; set; }
+    public virtual ICollection<Delivery> Deliveries { get; set; }
+    
+    public Car()
+    {
+        Deliveries = new List<Delivery>();
+    }
     
 }

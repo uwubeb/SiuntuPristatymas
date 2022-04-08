@@ -8,6 +8,11 @@ public class DeliveryRoute : BaseEntity
     public int Distance { get; set; }
     public TimeSpan AverageLength { get; set; }
     
-    public List<Delivery> Deliveries { get; set; }
+    public virtual ICollection<Delivery> Deliveries { get; set; }
+    
+    public DeliveryRoute()
+    {
+        Deliveries = new List<Delivery>();
+    }
 }
 
