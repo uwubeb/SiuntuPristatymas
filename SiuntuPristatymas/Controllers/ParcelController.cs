@@ -65,9 +65,9 @@ namespace SiuntuPristatymas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Length,Width,Height,Weight,Status,DeliveryId,AddressId,Id")] Parcel parcel)
+        public async Task<IActionResult> Create([Bind("Length,Width,Height,Weight,Status,DeliveryId,AddressId")] Parcel parcel)
         {
-            parcel.ParcelHistory = new List<ParcelHistory>();
+            // parcel.ParcelHistory = new List<ParcelHistory>();
             if (ModelState.IsValid)
             {
                 _context.Add(parcel);

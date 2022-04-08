@@ -14,7 +14,8 @@ public class Parcel : BaseEntity
     public Delivery? Delivery { get; set; }
     
     public int AddressId { get; set; }
-    public virtual Address Address { get; set; }
+    //nullable for Create model binding. Should not accept null value.
+    public virtual Address? Address { get; set; }
     
     public virtual ICollection<ParcelHistory> ParcelHistory { get; set; }
     
