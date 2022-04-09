@@ -1,6 +1,6 @@
 ﻿namespace SiuntuPristatymas.Data;
 
-public enum ParcelStatusEnum
+public enum  ParcelStatusEnum
 {
     NotAssigned = 0,
     WaitingForPickup = 1,
