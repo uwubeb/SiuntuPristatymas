@@ -12,7 +12,7 @@ using SiuntuPristatymas.Data;
 namespace SiuntuPristatymas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220406173059_initial")]
+    [Migration("20220408170452_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -226,30 +226,7 @@ namespace SiuntuPristatymas.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Siuntos.Data.Models.Car", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("Filled")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaxCapacity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PlateNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Cars");
-                });
-
-            modelBuilder.Entity("SiuntuPristatymas.Data.Address", b =>
+            modelBuilder.Entity("SiuntuPristatymas.Data.Models.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -278,7 +255,30 @@ namespace SiuntuPristatymas.Migrations
                     b.ToTable("Addresses");
                 });
 
-            modelBuilder.Entity("SiuntuPristatymas.Data.Delivery", b =>
+            modelBuilder.Entity("SiuntuPristatymas.Data.Models.Car", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Filled")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxCapacity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PlateNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cars");
+                });
+
+            modelBuilder.Entity("SiuntuPristatymas.Data.Models.Delivery", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -301,9 +301,8 @@ namespace SiuntuPristatymas.Migrations
                     b.Property<int>("FilledCapacity")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -314,7 +313,7 @@ namespace SiuntuPristatymas.Migrations
                     b.ToTable("Deliveries");
                 });
 
-            modelBuilder.Entity("SiuntuPristatymas.Data.DeliveryRoute", b =>
+            modelBuilder.Entity("SiuntuPristatymas.Data.Models.DeliveryRoute", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -337,7 +336,7 @@ namespace SiuntuPristatymas.Migrations
                     b.ToTable("DeliveryRoutes");
                 });
 
-            modelBuilder.Entity("SiuntuPristatymas.Data.Parcel", b =>
+            modelBuilder.Entity("SiuntuPristatymas.Data.Models.Parcel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -357,9 +356,8 @@ namespace SiuntuPristatymas.Migrations
                     b.Property<int>("Length")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("Weight")
                         .HasColumnType("int");
@@ -376,7 +374,7 @@ namespace SiuntuPristatymas.Migrations
                     b.ToTable("Parcels");
                 });
 
-            modelBuilder.Entity("SiuntuPristatymas.Data.ParcelHistory", b =>
+            modelBuilder.Entity("SiuntuPristatymas.Data.Models.ParcelHistory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -387,12 +385,11 @@ namespace SiuntuPristatymas.Migrations
                     b.Property<int>("ParcelId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
-                    b.Property<TimeSpan>("Time")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -452,15 +449,15 @@ namespace SiuntuPristatymas.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SiuntuPristatymas.Data.Delivery", b =>
+            modelBuilder.Entity("SiuntuPristatymas.Data.Models.Delivery", b =>
                 {
-                    b.HasOne("Siuntos.Data.Models.Car", "Car")
+                    b.HasOne("SiuntuPristatymas.Data.Models.Car", "Car")
                         .WithMany("Deliveries")
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SiuntuPristatymas.Data.DeliveryRoute", "DeliveryRoute")
+                    b.HasOne("SiuntuPristatymas.Data.Models.DeliveryRoute", "DeliveryRoute")
                         .WithMany("Deliveries")
                         .HasForeignKey("DeliveryRouteId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -471,15 +468,15 @@ namespace SiuntuPristatymas.Migrations
                     b.Navigation("DeliveryRoute");
                 });
 
-            modelBuilder.Entity("SiuntuPristatymas.Data.Parcel", b =>
+            modelBuilder.Entity("SiuntuPristatymas.Data.Models.Parcel", b =>
                 {
-                    b.HasOne("SiuntuPristatymas.Data.Address", "Address")
+                    b.HasOne("SiuntuPristatymas.Data.Models.Address", "Address")
                         .WithMany("Parcels")
                         .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SiuntuPristatymas.Data.Delivery", "Delivery")
+                    b.HasOne("SiuntuPristatymas.Data.Models.Delivery", "Delivery")
                         .WithMany("Parcels")
                         .HasForeignKey("DeliveryId");
 
@@ -488,9 +485,9 @@ namespace SiuntuPristatymas.Migrations
                     b.Navigation("Delivery");
                 });
 
-            modelBuilder.Entity("SiuntuPristatymas.Data.ParcelHistory", b =>
+            modelBuilder.Entity("SiuntuPristatymas.Data.Models.ParcelHistory", b =>
                 {
-                    b.HasOne("SiuntuPristatymas.Data.Parcel", "Parcel")
+                    b.HasOne("SiuntuPristatymas.Data.Models.Parcel", "Parcel")
                         .WithMany("ParcelHistory")
                         .HasForeignKey("ParcelId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -499,27 +496,27 @@ namespace SiuntuPristatymas.Migrations
                     b.Navigation("Parcel");
                 });
 
-            modelBuilder.Entity("Siuntos.Data.Models.Car", b =>
-                {
-                    b.Navigation("Deliveries");
-                });
-
-            modelBuilder.Entity("SiuntuPristatymas.Data.Address", b =>
+            modelBuilder.Entity("SiuntuPristatymas.Data.Models.Address", b =>
                 {
                     b.Navigation("Parcels");
                 });
 
-            modelBuilder.Entity("SiuntuPristatymas.Data.Delivery", b =>
-                {
-                    b.Navigation("Parcels");
-                });
-
-            modelBuilder.Entity("SiuntuPristatymas.Data.DeliveryRoute", b =>
+            modelBuilder.Entity("SiuntuPristatymas.Data.Models.Car", b =>
                 {
                     b.Navigation("Deliveries");
                 });
 
-            modelBuilder.Entity("SiuntuPristatymas.Data.Parcel", b =>
+            modelBuilder.Entity("SiuntuPristatymas.Data.Models.Delivery", b =>
+                {
+                    b.Navigation("Parcels");
+                });
+
+            modelBuilder.Entity("SiuntuPristatymas.Data.Models.DeliveryRoute", b =>
+                {
+                    b.Navigation("Deliveries");
+                });
+
+            modelBuilder.Entity("SiuntuPristatymas.Data.Models.Parcel", b =>
                 {
                     b.Navigation("ParcelHistory");
                 });
