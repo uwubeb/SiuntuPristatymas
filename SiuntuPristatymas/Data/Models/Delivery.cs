@@ -1,23 +1,26 @@
-﻿using Siuntos.Data.Models;
-using SiuntuPristatymas.Data.Base;
+﻿using SiuntuPristatymas.Data.Base;
 
-namespace SiuntuPristatymas.Data;
+namespace SiuntuPristatymas.Data.Models;
 
 public class Delivery : BaseEntity
 {
-    //Gonna have to change to enum, still figuring out
-    public string Status { get; set; }
+    public DeliveryStatusEnum Status { get; set; }
     public int FilledCapacity { get; set; }
     public DateTime Date { get; set; }
     public TimeSpan EstimatedDuration { get; set; }
     
     public int CarId { get; set; }
-    public Car Car { get; set; }
+    public virtual Car Car { get; set; }
     
     public int DeliveryRouteId { get; set; }
-    public DeliveryRoute DeliveryRoute { get; set; }
+    public virtual DeliveryRoute DeliveryRoute { get; set; }
     
-    public List<Parcel> Parcels { get; set; }
+    public virtual ICollection<Parcel> Parcels { get; set; }
+    
+    public Delivery()
+    {
+        Parcels = new List<Parcel>();
+    }
     
     
 }

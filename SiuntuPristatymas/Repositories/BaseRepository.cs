@@ -1,6 +1,4 @@
-﻿
-
-using System.Linq;
+﻿using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using SiuntuPristatymas.Data;
@@ -84,6 +82,10 @@ public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : Base
     {
         return await ItemSet.AnyAsync(expression);
     }
+    public virtual async Task<bool> Exists(int id)
+    {
+        return await ItemSet.AnyAsync(p => p.Id == id);
+    }
 
     public IQueryable<TEntity> GetQueryable()
     {
@@ -97,4 +99,6 @@ public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : Base
             .Select(projectionExpression)
             .FirstOrDefaultAsync();
     }
+    
+    
 }

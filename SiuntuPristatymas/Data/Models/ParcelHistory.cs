@@ -1,13 +1,11 @@
 ﻿using SiuntuPristatymas.Data.Base;
 
-namespace SiuntuPristatymas.Data;
+namespace SiuntuPristatymas.Data.Models;
 
 public class ParcelHistory : BaseEntity
 {
-    public TimeSpan Time { get; set; }
-    
-    //Change to enum
-    public string Status { get; set; }
+    public DateTime Time { get; set; }
+    public ParcelStatusEnum Status { get; set; }
     
     public int ParcelId { get; set; }
     public Parcel Parcel { get; set; }

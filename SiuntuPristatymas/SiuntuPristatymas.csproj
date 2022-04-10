@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-SiuntuPristatymas-A2FF8E28-BA07-43A0-876F-2635E6889FC7</UserSecretsId>
+    <UserSecretsId>aspnet-SiuntuPristatymas-DA325227-4DC1-4341-BAE0-C41BD5A135B3</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +23,15 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.2" />
+<<<<<<< HEAD
+=======
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations" />
+    <Folder Include="Services\" />
+    <Folder Include="Repositories\" />
+>>>>>>> 42fe36b29b8c7794737855c7359a77f422b42add
   </ItemGroup>
   
 

@@ -4,8 +4,13 @@ using SiuntuPristatymas.Data;
 using SiuntuPristatymas.Data.Models;
 using SiuntuPristatymas.Repositories;
 using SiuntuPristatymas.Services;
+<<<<<<< HEAD
 using AutoMapper;
 using SiuntuPristatymas.Models;
+=======
+
+
+>>>>>>> 42fe36b29b8c7794737855c7359a77f422b42add
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +24,9 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddControllersWithViews();
+builder.Services
+    .AddScoped<IRepository<Parcel>, ParcelRepository>();
 
 builder.Services.AddControllersWithViews();
 
@@ -27,7 +35,6 @@ builder.Services
     .AddScoped<IRepository<Delivery>, DeliveryRepository>();
 
 builder.Services.AddHostedService<DatabaseInitializationService>();
-builder.Services.AddRazorPages();
 
 builder.Services.AddAutoMapper(typeof(DeliveryProfile));
 
@@ -40,7 +47,7 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Error");
+    app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
@@ -53,6 +60,9 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();
