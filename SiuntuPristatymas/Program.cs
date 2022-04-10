@@ -4,8 +4,8 @@ using SiuntuPristatymas.Data;
 using SiuntuPristatymas.Data.Models;
 using SiuntuPristatymas.Repositories;
 using SiuntuPristatymas.Services;
-
-
+using AutoMapper;
+using SiuntuPristatymas.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,10 +20,14 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
 builder.Services
-    .AddScoped<IRepository<Parcel>, ParcelRepository>();
+    .AddScoped<IRepository<Parcel>, ParcelRepository>()
+    .AddScoped<IRepository<Delivery>, DeliveryRepository>();
 
 builder.Services.AddHostedService<DatabaseInitializationService>();
+
+builder.Services.AddAutoMapper(typeof(DeliveryProfile));
 
 var app = builder.Build();
 

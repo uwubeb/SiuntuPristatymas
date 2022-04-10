@@ -7,7 +7,7 @@ public class Delivery : BaseEntity
     public DeliveryStatusEnum Status { get; set; }
     public int FilledCapacity { get; set; }
     public DateTime Date { get; set; }
-    public TimeSpan EstimatedLength { get; set; }
+    public TimeSpan EstimatedDuration { get; set; }
     
     public int CarId { get; set; }
     public virtual Car Car { get; set; }
