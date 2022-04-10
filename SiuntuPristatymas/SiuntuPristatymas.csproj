@@ -23,24 +23,13 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.2" />
-<<<<<<< HEAD
-=======
-  </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations" />
-    <Folder Include="Services\" />
-    <Folder Include="Repositories\" />
->>>>>>> 42fe36b29b8c7794737855c7359a77f422b42add
   </ItemGroup>
-  
-
   <ItemGroup>
 	<Folder Include="Services\" />
     <Folder Include="Data\Migrations\" />
 	<Folder Include="Repositories\" />
   </ItemGroup>
-
 
 
 

@@ -4,13 +4,8 @@ using SiuntuPristatymas.Data;
 using SiuntuPristatymas.Data.Models;
 using SiuntuPristatymas.Repositories;
 using SiuntuPristatymas.Services;
-<<<<<<< HEAD
 using AutoMapper;
 using SiuntuPristatymas.Models;
-=======
-
-
->>>>>>> 42fe36b29b8c7794737855c7359a77f422b42add
 
 var builder = WebApplication.CreateBuilder(args);
 
