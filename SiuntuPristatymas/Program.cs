@@ -4,8 +4,13 @@ using SiuntuPristatymas.Data;
 using SiuntuPristatymas.Data.Models;
 using SiuntuPristatymas.Repositories;
 using SiuntuPristatymas.Services;
+<<<<<<< HEAD
+using AutoMapper;
+using SiuntuPristatymas.Models;
+=======
 
 
+>>>>>>> 42fe36b29b8c7794737855c7359a77f422b42add
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +28,15 @@ builder.Services.AddControllersWithViews();
 builder.Services
     .AddScoped<IRepository<Parcel>, ParcelRepository>();
 
+builder.Services.AddControllersWithViews();
+
+builder.Services
+    .AddScoped<IRepository<Parcel>, ParcelRepository>()
+    .AddScoped<IRepository<Delivery>, DeliveryRepository>();
+
 builder.Services.AddHostedService<DatabaseInitializationService>();
+
+builder.Services.AddAutoMapper(typeof(DeliveryProfile));
 
 var app = builder.Build();
 

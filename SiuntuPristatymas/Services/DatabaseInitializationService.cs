@@ -44,15 +44,20 @@ namespace SiuntuPristatymas.Services
 
             var deliveryRoutes = new DeliveryRoute[] {
                 new DeliveryRoute { City = "Vilnius", Distance = 125,
-                    AverageLength = new TimeSpan(hours: 1, minutes: 47, seconds: 0) },
+                    AverageDuration = new TimeSpan(hours: 1, minutes: 47, seconds: 0) },
                 new DeliveryRoute { City = "Kaunas", Distance = 67,
-                    AverageLength = new TimeSpan(hours: 0, minutes: 56, seconds: 42) },
+                    AverageDuration = new TimeSpan(hours: 0, minutes: 56, seconds: 42) },
                 new DeliveryRoute { City = "Druskininkai", Distance = 112,
-                    AverageLength = new TimeSpan(hours: 1, minutes: 24, seconds: 15) }};
+                    AverageDuration = new TimeSpan(hours: 1, minutes: 24, seconds: 15) }};
 
             var deliveries = new Delivery[] {
+<<<<<<< HEAD
+                new Delivery { Status=DeliveryStatusEnum.InProgress, FilledCapacity=5, Date = new DateTime(), EstimatedDuration=new TimeSpan(hours: 1, minutes: 24, seconds: 15), Car=cars[0],DeliveryRoute=deliveryRoutes[0] },
+                new Delivery { Status=DeliveryStatusEnum.InProgress, FilledCapacity=20, Date = new DateTime(), EstimatedDuration=new TimeSpan(hours: 4, minutes: 11, seconds: 12), Car=cars[1],DeliveryRoute=deliveryRoutes[1] }};
+=======
                 new Delivery { Status=DeliveryStatusEnum.InProgress, FilledCapacity=5, Date = new DateTime(), EstimatedLength=new TimeSpan(hours: 1, minutes: 24, seconds: 15), Car=cars[0],DeliveryRoute=deliveryRoutes[0] },
                 new Delivery { Status=DeliveryStatusEnum.InProgress, FilledCapacity=20, Date = new DateTime(), EstimatedLength=new TimeSpan(hours: 4, minutes: 11, seconds: 12), Car=cars[1],DeliveryRoute=deliveryRoutes[1] }};
+>>>>>>> 42fe36b29b8c7794737855c7359a77f422b42add
 
             var parcels = new Parcel[]
             {
@@ -62,8 +67,13 @@ namespace SiuntuPristatymas.Services
 
             var parcelHistories = new ParcelHistory[]
             {
+<<<<<<< HEAD
+                new ParcelHistory {Time = DateTime.Now.Subtract(TimeSpan.FromHours(2)), Parcel = parcels[0], Status = ParcelStatusEnum.InTransit},
+                new ParcelHistory {Time = DateTime.Now, Parcel = parcels[0], Status = ParcelStatusEnum.Delivered},
+=======
                 new ParcelHistory {Time = DateTime.Now.Subtract(TimeSpan.FromHours(2)), ParcelId = 1, Status = ParcelStatusEnum.InTransit},
                 new ParcelHistory {Time = DateTime.Now, ParcelId = 1, Status = ParcelStatusEnum.Delivered},
+>>>>>>> 42fe36b29b8c7794737855c7359a77f422b42add
 
             };
 
