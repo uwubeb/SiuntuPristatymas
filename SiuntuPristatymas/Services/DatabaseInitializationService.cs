@@ -1,4 +1,5 @@
-﻿using SiuntuPristatymas.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SiuntuPristatymas.Data;
 using SiuntuPristatymas.Data.Models;
 
 namespace SiuntuPristatymas.Services
@@ -19,7 +20,11 @@ namespace SiuntuPristatymas.Services
         {
             using var scope = serviceProvider.CreateScope();
             var dataContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            await Seed(dataContext);
+            if (!dataContext.Cars.Any())
+            {
+                await Seed(dataContext);
+            }
+
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
