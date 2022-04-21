@@ -5,26 +5,23 @@ namespace SiuntuPristatymas.Data;
 public enum  ParcelStatusEnum 
 {
     [Description("Not assigned")]
-    NotAssigned = 0,
+    NotAssigned,
     [Description("Waiting for pickup")]
-    WaitingForPickup = 1,
+    WaitingForPickup,
     [Description("In transit")]
-    InTransit = 2,
+    InTransit,
     [Description("Delivered")]
-    Delivered = 3
+    Delivered,
 
 }
 
 public static class EnumHelper
 {
-    public static string GetDescription(this Enum value)
+    private static TEnum? GetEnum<TEnum>(string value) where TEnum : struct
     {
-        var type = value.GetType();
-        var memberInfo = type.GetMember(value.ToString());
-        var attributes = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+        TEnum result;
 
-        return attributes.Length > 0
-            ? ((DescriptionAttribute)attributes[0]).Description
-            : value.ToString();
+        return Enum.TryParse<TEnum>(value, out result) ? (TEnum?)result : null;
     }
+
 }

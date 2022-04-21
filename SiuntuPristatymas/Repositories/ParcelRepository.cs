@@ -37,8 +37,8 @@ public class ParcelRepository : BaseRepository<Parcel>, IQueryRepository<Parcel>
                             || p.Width.ToString().Contains(searchString) 
                             || p.Height.ToString().Contains(searchString)
                             //ParcelStatusEnum get description
-                            // || p.Status.GetDescription().ToLower().Contains(searchString)
-                            // || p.Status.GetDescription<ParcelStatusEnum>().Contains(searchString)
+                            // || String.Parse(p.Status).ToString().ToLower().Contains(searchString)
+                            // || p.Status.GetE<ParcelStatusEnum>().Contains(searchString)
                             // gotta figure out this
                             || p.Delivery.Id.ToString().Contains(searchString) 
                             || p.AddressId.ToString().Contains(searchString)) 

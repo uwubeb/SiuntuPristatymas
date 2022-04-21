@@ -12,21 +12,25 @@ namespace SiuntuPristatymas.Controllers
 {
     public class DeliveryController : Controller
     {
-        private readonly Data.ApplicationDbContext _context;
-        private readonly IRepository<Delivery> _deliveryRepository;
+        private readonly ApplicationDbContext _context;
 
         private readonly IMapper _mapper;
 
-        public DeliveryController(IRepository<Delivery> deliveryRepository, ApplicationDbContext context, IMapper mapper)
+        public DeliveryController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
-            _deliveryRepository = deliveryRepository;
             _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _deliveryRepository.GetAll());
+            var deliveries = await _context.Deliveries
+                .Include(x => x.Car)
+                .Include(x => x.DeliveryRoute)
+                .Include(x => x.Parcels)
+                .ToListAsync();
+
+            return View(deliveries);
         }
 
         public IActionResult Create()
@@ -45,7 +49,8 @@ namespace SiuntuPristatymas.Controllers
 
             if (ModelState.IsValid)
             {
-                await _deliveryRepository.Create(delivery);
+                await _context.Deliveries.AddAsync(delivery);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
@@ -57,7 +62,7 @@ namespace SiuntuPristatymas.Controllers
         public async Task<IActionResult> Edit(int id)
         {
 
-            var delivery = await _deliveryRepository.GetById(id);
+            var delivery = await _context.Deliveries.FindAsync(id);
             if (delivery == null)
             {
                 return NotFound();
@@ -83,21 +88,9 @@ namespace SiuntuPristatymas.Controllers
             {
                 var delivery = new Delivery();
                 _mapper.Map(deliveryDto, delivery);
-                try
-                {
-                    await _deliveryRepository.Update(delivery);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!(await _deliveryRepository.Exists(deliveryDto.Id)))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _context.Deliveries.Update(delivery);
+                await _context.SaveChangesAsync();
+                
                 return RedirectToAction(nameof(Index));
             }
 
@@ -111,7 +104,13 @@ namespace SiuntuPristatymas.Controllers
         public async Task<IActionResult> Details(int id)
         {
 
-            var delivery = await _deliveryRepository.GetById(id);
+            var delivery = await _context.Deliveries
+                .Include(x => x.Car)
+                .Include(x => x.DeliveryRoute)
+                .Include(x => x.Parcels)
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+            
             if (delivery == null)
             {
                 return NotFound();
@@ -125,7 +124,7 @@ namespace SiuntuPristatymas.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            var delivery = await _deliveryRepository.GetById(id);
+            var delivery = await _context.Deliveries.FindAsync(id);
             if (delivery == null)
             {
                 return NotFound();
@@ -138,23 +137,25 @@ namespace SiuntuPristatymas.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var delivery = await _deliveryRepository.GetById(id);
+            var delivery = await _context.Deliveries.FindAsync(id);
             if (delivery == null)
             {
                 return NotFound();
             }
 
-            var parcels = _context.Parcels.Where(p => p.DeliveryId == id);
+            //should be deleted cascade automatically
+            // var parcels = _context.Parcels.Where(p => p.DeliveryId == id);
+            //
+            // foreach (var parcel in parcels)
+            // {
+            //
+            //     parcel.DeliveryId = null;
+            //     parcel.Delivery = null;
+            //
+            // }
 
-            foreach (var parcel in parcels)
-            {
-
-                parcel.DeliveryId = null;
-                parcel.Delivery = null;
-
-            }
-
-            await _deliveryRepository.Delete(delivery);
+            _context.Deliveries.Remove(delivery);
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

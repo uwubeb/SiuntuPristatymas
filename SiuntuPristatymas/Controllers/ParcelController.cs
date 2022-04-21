@@ -16,21 +16,44 @@ namespace SiuntuPristatymas.Controllers
     public class ParcelController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IQueryRepository<Parcel> _parcelRepository;
 
-        public ParcelController(IQueryRepository<Parcel> parcelRepository, ApplicationDbContext context)
+        public ParcelController(ApplicationDbContext context)
         {
             _context = context;
-            _parcelRepository = parcelRepository;
         }
         
         // GET: Parcel
         public async Task<IActionResult> Index(string searchString)
         {
-            var parcels = await _parcelRepository.GetAll(searchString);
-            return View(parcels);
-        }
+            if (String.IsNullOrEmpty(searchString))
+            {
+                var parcels = await _context.Parcels
+                    .Include(p => p.Address)
+                    .Include(p => p.Delivery)
+                    .ToListAsync();
+                return View(parcels);
 
+            }
+            else
+            {
+                searchString = searchString.ToLower();
+                //check if any property of the object matches the search string
+                var parcels = _context.Parcels
+                    .Include(p => p.Address)
+                    .Include(p => p.Delivery)
+                    .Where(p => p.Length.ToString().Contains(searchString)
+                                || p.Width.ToString().Contains(searchString)
+                                || p.Height.ToString().Contains(searchString)
+                                //ParcelStatusEnum get description
+                                // || String.Parse(p.Status).ToString().ToLower().Contains(searchString)
+                                // || p.Status.GetE<ParcelStatusEnum>().Contains(searchString)
+                                // gotta figure out this
+                                || p.Delivery.Id.ToString().Contains(searchString)
+                                || p.AddressId.ToString().Contains(searchString))
+                    .ToListAsync();
+                return View(await parcels);
+            }
+        }
         // GET: Parcel/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -38,7 +61,12 @@ namespace SiuntuPristatymas.Controllers
             {
                 return NotFound();
             }
-            var parcel = await _parcelRepository.GetById(id.Value);
+            //find parcel by id
+            var parcel = await _context.Parcels
+                .Include(p => p.Address)
+                .Include(p => p.Delivery)
+                .Include(p => p.ParcelHistory)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (parcel == null)
             {
                 return NotFound();
@@ -65,9 +93,9 @@ namespace SiuntuPristatymas.Controllers
             // parcel.ParcelHistory = new List<ParcelHistory>();
             if (ModelState.IsValid)
             {
-                await _parcelRepository.Create(parcel);
-                // _context.Add(parcel);
-                // await _context.SaveChangesAsync();
+                //create parcel
+                await _context.AddAsync(parcel);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", parcel.AddressId);
@@ -82,8 +110,7 @@ namespace SiuntuPristatymas.Controllers
             {
                 return NotFound();
             }
-            var parcel = await _parcelRepository.GetById(id.Value);
-            // var parcel = await _context.Parcels.FindAsync(id);
+            var parcel = await _context.Parcels.FindAsync(id);
             if (parcel == null)
             {
                 return NotFound();
@@ -109,9 +136,8 @@ namespace SiuntuPristatymas.Controllers
             {
                 try
                 {
-                    await _parcelRepository.Update(parcel);
-                    // _context.Update(parcel);
-                    // await _context.SaveChangesAsync();
+                    _context.Update(parcel);
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -139,11 +165,11 @@ namespace SiuntuPristatymas.Controllers
                 return NotFound();
             }
 
-            var parcel = await _parcelRepository.GetById(id.Value);
-            // var parcel = await _context.Parcels
-            //     .Include(p => p.Address)
-            //     .Include(p => p.Delivery)
-            //     .FirstOrDefaultAsync(m => m.Id == id);
+            var parcel = await _context.Parcels
+            .Include(p => p.Address)
+            .Include(p => p.Delivery)
+            .FirstOrDefaultAsync(m => m.Id == id);
+            
             if (parcel == null)
             {
                 return NotFound();
@@ -157,11 +183,9 @@ namespace SiuntuPristatymas.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var parcel = await _parcelRepository.GetById(id);
-            await _parcelRepository.Delete(parcel);
-            // var parcel = await _context.Parcels.FindAsync(id);
-            // _context.Parcels.Remove(parcel);
-            // await _context.SaveChangesAsync();
+            var parcel = await _context.Parcels.FindAsync(id);
+            _context.Parcels.Remove(parcel);
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
         
@@ -170,8 +194,7 @@ namespace SiuntuPristatymas.Controllers
 
         private async Task<bool> ParcelExists(int id)
         {
-            // return _context.Parcels.Any(e => e.Id == id);
-            return await _parcelRepository.Exists(id);
+            return await _context.Parcels.AnyAsync(e => e.Id == id);
         }
     }
 }

@@ -21,10 +21,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
-builder.Services
-    .AddScoped<IQueryRepository<Parcel>, ParcelRepository>()
-    .AddScoped<IRepository<Delivery>, DeliveryRepository>();
-
+// builder.Services
+//     .AddScoped<IQueryRepository<Parcel>, ParcelRepository>()
+//     .AddScoped<IRepository<Delivery>, DeliveryRepository>();
+//
 
 builder.Services.AddHostedService<DatabaseInitializationService>();
 
