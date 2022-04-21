@@ -21,9 +21,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
-builder.Services
-    .AddScoped<IRepository<Parcel>, ParcelRepository>()
-    .AddScoped<IRepository<Delivery>, DeliveryRepository>();
+// builder.Services
+//     .AddScoped<IQueryRepository<Parcel>, ParcelRepository>()
+//     .AddScoped<IRepository<Delivery>, DeliveryRepository>();
+//
 
 builder.Services.AddHostedService<DatabaseInitializationService>();
 
@@ -55,5 +56,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
 
 app.Run();
