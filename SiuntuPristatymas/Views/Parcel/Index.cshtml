@@ -9,6 +9,12 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+@using (Html.BeginForm())
+{
+    <p>
+        Filter by any field: @Html.TextBox("SearchString")  
+        <input type="submit" value="Search" /></p>
+}
 <table class="table">
     <thead>
         <tr>

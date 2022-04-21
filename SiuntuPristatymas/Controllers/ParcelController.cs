@@ -27,10 +27,6 @@ namespace SiuntuPristatymas.Controllers
         // GET: Parcel
         public async Task<IActionResult> Index(string searchString)
         {
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                
-            }
             var parcels = await _parcelRepository.GetAll(searchString);
             return View(parcels);
         }

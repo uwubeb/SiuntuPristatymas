@@ -35,8 +35,11 @@ public class ParcelRepository : BaseRepository<Parcel>, IQueryRepository<Parcel>
                 .Include(p => p.Delivery)
                 .Where(p => p.Length.ToString().Contains(searchString) 
                             || p.Width.ToString().Contains(searchString) 
-                            || p.Height.ToString().Contains(searchString) 
-                            || p.Status.ToString().Contains(searchString) 
+                            || p.Height.ToString().Contains(searchString)
+                            //ParcelStatusEnum get description
+                            // || p.Status.GetDescription().ToLower().Contains(searchString)
+                            // || p.Status.GetDescription<ParcelStatusEnum>().Contains(searchString)
+                            // gotta figure out this
                             || p.Delivery.Id.ToString().Contains(searchString) 
                             || p.AddressId.ToString().Contains(searchString)) 
                 .ToListAsync();
