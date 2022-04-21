@@ -16,18 +16,22 @@ namespace SiuntuPristatymas.Controllers
     public class ParcelController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IRepository<Parcel> _parcelRepository;
+        private readonly IQueryRepository<Parcel> _parcelRepository;
 
-        public ParcelController(IRepository<Parcel> parcelRepository, ApplicationDbContext context)
+        public ParcelController(IQueryRepository<Parcel> parcelRepository, ApplicationDbContext context)
         {
             _context = context;
             _parcelRepository = parcelRepository;
         }
         
         // GET: Parcel
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var parcels = await _parcelRepository.GetAll();
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                
+            }
+            var parcels = await _parcelRepository.GetAll(searchString);
             return View(parcels);
         }
 
@@ -164,6 +168,9 @@ namespace SiuntuPristatymas.Controllers
             // await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        
+        
+
 
         private async Task<bool> ParcelExists(int id)
         {
