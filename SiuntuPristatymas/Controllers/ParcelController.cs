@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SiuntuPristatymas.Data;
+using SiuntuPristatymas.Data.Dtos;
 using SiuntuPristatymas.Data.Models;
 using SiuntuPristatymas.Repositories;
 using SiuntuPristatymas.Services;
@@ -88,18 +89,28 @@ namespace SiuntuPristatymas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Length,Width,Height,Weight,Status,DeliveryId,AddressId")] Parcel parcel)
+        public async Task<IActionResult> Create([Bind("Length,Width,Height,Weight,Status,AddressId")] Parcel parcel)
         {
             // parcel.ParcelHistory = new List<ParcelHistory>();
             if (ModelState.IsValid)
             {
+                var delivery = await AssignToDelivery(parcel);
+                if (delivery != null)
+                {
+                    parcel.Delivery = await AssignToDelivery(parcel);
+                    parcel.Status = ParcelStatusEnum.WaitingForPickup;
+                }
+                else
+                {
+                    parcel.Status = ParcelStatusEnum.NotAssigned;
+                }
                 //create parcel
                 await _context.AddAsync(parcel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", parcel.AddressId);
-            ViewData["DeliveryId"] = new SelectList(_context.Set<Delivery>(), "Id", "Id", parcel.DeliveryId);
+            //ViewData["DeliveryId"] = new SelectList(_context.Set<Delivery>(), "Id", "Id", parcel.DeliveryId);
             return View(parcel);
         }
 
@@ -190,7 +201,11 @@ namespace SiuntuPristatymas.Controllers
         }
         
         
-
+        private async Task<Delivery> AssignToDelivery(Parcel parcel)
+        {
+            var delivery = await _context.Deliveries.FirstOrDefaultAsync(d => d.Status == DeliveryStatusEnum.Planned);
+            return delivery;
+        }
 
         private async Task<bool> ParcelExists(int id)
         {

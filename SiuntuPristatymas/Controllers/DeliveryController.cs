@@ -116,10 +116,10 @@ namespace SiuntuPristatymas.Controllers
                 return NotFound();
             }
 
-            var deliveryDto = new DeliveryDto();
-            _mapper.Map(delivery, deliveryDto);
-
-            return View(deliveryDto);
+            //var deliveryDto = new DeliveryDto();
+            //_mapper.Map(delivery, deliveryDto);
+            
+            return View(delivery);
         }
 
         public async Task<IActionResult> Delete(int id)
