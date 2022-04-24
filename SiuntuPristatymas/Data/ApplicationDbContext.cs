@@ -4,13 +4,18 @@ using SiuntuPristatymas.Data.Models;
 
 namespace SiuntuPristatymas.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
             this.Database.EnsureCreated();
             
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
         }
 
         public DbSet<Parcel> Parcels { get; set; }

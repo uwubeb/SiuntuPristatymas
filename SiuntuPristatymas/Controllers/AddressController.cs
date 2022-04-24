@@ -11,11 +11,11 @@ using SiuntuPristatymas.Data.Models;
 
 namespace SiuntuPristatymas.Controllers
 {
-    public class AddressesController : Controller
+    public class AddressController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public AddressesController(ApplicationDbContext context)
+        public AddressController(ApplicationDbContext context)
         {
             _context = context;
         }

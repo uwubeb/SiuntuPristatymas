@@ -2,8 +2,8 @@
 
 public enum DeliveryStatusEnum
 {
-    Planned,
-    InProgress,
-    Returning,
-    Done
+    Planned = 0,
+    InProgress = 1,
+    Returning = 2,
+    Done = 3
 }
