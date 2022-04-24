@@ -23,12 +23,9 @@ namespace SiuntuPristatymas.Controllers
         public IActionResult Index()
         {
 
-            if (User.Identity.Name == null)
+            if (User.Identity.Name != null)
             {
-                return Redirect("Identity/Account/Login");
-            }
-            else
-            {
+                
                 ApplicationUser user = _context.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
 
 
