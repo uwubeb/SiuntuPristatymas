@@ -62,15 +62,28 @@ namespace SiuntuPristatymas.Services
                 new DeliveryRoute { City = "Druskininkai", Distance = 112,
                     AverageDuration = new TimeSpan(hours: 1, minutes: 24, seconds: 15) }};
 
+            var users = new ApplicationUser[]
+            {
+
+                new ApplicationUser{UserName =  "admin", Role=Data.Enums.RolesEnum.Admin},
+                new ApplicationUser{UserName =  "courier", Role=Data.Enums.RolesEnum.Courier}
+            };
+
             var deliveries = new Delivery[] {
 
-                new Delivery { Status=DeliveryStatusEnum.InProgress, FilledCapacity=5, Date = new DateTime(), EstimatedDuration=new TimeSpan(hours: 1, minutes: 24, seconds: 15), Car=cars[0],DeliveryRoute=deliveryRoutes[0] },
-                new Delivery { Status=DeliveryStatusEnum.InProgress, FilledCapacity=20, Date = new DateTime(), EstimatedDuration=new TimeSpan(hours: 4, minutes: 11, seconds: 12), Car=cars[1],DeliveryRoute=deliveryRoutes[1] }};
+                new Delivery { Status=DeliveryStatusEnum.Planned, FilledCapacity=5, Date = new DateTime(), EstimatedDuration=new TimeSpan(hours: 1, minutes: 24, seconds: 15), Car=cars[0],DeliveryRoute=deliveryRoutes[0],User=users[1] },
+                new Delivery { Status=DeliveryStatusEnum.Planned, FilledCapacity=20, Date = new DateTime(), EstimatedDuration=new TimeSpan(hours: 4, minutes: 11, seconds: 12), Car=cars[1],DeliveryRoute=deliveryRoutes[1] }
+            };
 
 
             var parcels = new Parcel[]
             {
                 new Parcel{Length=20,Width = 25,Height=23,Weight=14,Status=ParcelStatusEnum.InTransit,Delivery=deliveries[0],Address=addresses[0]},
+
+                new Parcel{Length=20,Width = 25,Height=23,Weight=15,Status=ParcelStatusEnum.InTransit,Delivery=deliveries[0],Address=addresses[0]},
+
+                new Parcel{Length=20,Width = 25,Height=23,Weight=16,Status=ParcelStatusEnum.InTransit,Delivery=deliveries[0],Address=addresses[0]},
+
                 new Parcel{Length=15,Width = 20,Height=25,Weight=42,Status=ParcelStatusEnum.InTransit,Delivery=deliveries[1],Address=addresses[1]}
             };
 
@@ -82,21 +95,13 @@ namespace SiuntuPristatymas.Services
 
 
             };
-            var hasher = new PasswordHasher<ApplicationUser>();
 
-            var users = new ApplicationUser[]
-            {
 
-                new ApplicationUser{UserName =  "admin", Role=Data.Enums.RolesEnum.Admin},
-                new ApplicationUser{UserName =  "courier", Role=Data.Enums.RolesEnum.Courier}
-            };
-            //users[0].PasswordHash = hasher.HashPassword(users[0], users[0].Password);
-            //users[1].PasswordHash = hasher.HashPassword(users[1], users[1].Password);
+
 
             await userManager.CreateAsync(users[0], "Admin.123");
             await userManager.CreateAsync(users[1], "Courier.123");
 
-            //await dataContext.Users.AddRangeAsync(users);
             await dataContext.Addresses.AddRangeAsync(addresses);
             await dataContext.Cars.AddRangeAsync(cars);
             await dataContext.DeliveryRoutes.AddRangeAsync(deliveryRoutes);

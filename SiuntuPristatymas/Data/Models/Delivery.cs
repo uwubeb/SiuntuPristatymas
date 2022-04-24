@@ -1,4 +1,5 @@
 ﻿using SiuntuPristatymas.Data.Base;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SiuntuPristatymas.Data.Models;
 
@@ -16,6 +17,9 @@ public class Delivery : BaseEntity
     public virtual DeliveryRoute DeliveryRoute { get; set; }
     
     public virtual ICollection<Parcel> Parcels { get; set; }
+
+    public string? UserId { get; set; }
+    public virtual ApplicationUser? User { get; set; }
     
     public Delivery()
     {
