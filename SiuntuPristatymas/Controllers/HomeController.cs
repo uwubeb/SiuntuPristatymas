@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using SiuntuPristatymas.Data;
+using SiuntuPristatymas.Data.Models;
 using SiuntuPristatymas.Models;
 using System.Diagnostics;
 
@@ -6,22 +9,44 @@ namespace SiuntuPristatymas.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+
+        public HomeController(ApplicationDbContext context)
         {
-            _logger = logger;
+
+            _context = context;
+
         }
+
 
         public IActionResult Index()
         {
-            return View();
+
+            if (User.Identity.Name == null)
+            {
+                return Redirect("Identity/Account/Login");
+            }
+            else
+            {
+                ApplicationUser user = _context.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+
+
+                if (user.Role == Data.Enums.RolesEnum.Admin)
+                {
+                    return Redirect("Parcel/Index");
+                }
+                else if (user.Role == Data.Enums.RolesEnum.Courier)
+                {
+                    return Redirect("CourierDelivery/Index");
+                }
+
+            }
+            return Redirect("Identity/Account/Login");
+
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

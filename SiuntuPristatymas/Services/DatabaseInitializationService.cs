@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SiuntuPristatymas.Data;
 using SiuntuPristatymas.Data.Models;
 
@@ -7,10 +8,12 @@ namespace SiuntuPristatymas.Services
     public class DatabaseInitializationService : IHostedService
     {
         private readonly IServiceProvider serviceProvider;
+        private UserManager<ApplicationUser> userManager = null;
         private readonly ILogger<DatabaseInitializationService> logger;
 
         public DatabaseInitializationService(IServiceProvider serviceProvider, ILogger<DatabaseInitializationService> logger)
         {
+
             this.serviceProvider = serviceProvider;
             this.logger = logger;
         }
@@ -18,11 +21,15 @@ namespace SiuntuPristatymas.Services
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            using var scope = serviceProvider.CreateScope();
-            var dataContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            if (!dataContext.Cars.Any())
+            using (var scope = serviceProvider.CreateScope())
             {
-                await Seed(dataContext);
+                userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                var dataContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+                if (!dataContext.Cars.Any())
+                {
+                    await Seed(dataContext);
+                }
             }
 
         }
@@ -75,7 +82,21 @@ namespace SiuntuPristatymas.Services
 
 
             };
+            var hasher = new PasswordHasher<ApplicationUser>();
 
+            var users = new ApplicationUser[]
+            {
+
+                new ApplicationUser{UserName =  "admin", Role=Data.Enums.RolesEnum.Admin},
+                new ApplicationUser{UserName =  "courier", Role=Data.Enums.RolesEnum.Courier}
+            };
+            //users[0].PasswordHash = hasher.HashPassword(users[0], users[0].Password);
+            //users[1].PasswordHash = hasher.HashPassword(users[1], users[1].Password);
+
+            await userManager.CreateAsync(users[0], "Admin.123");
+            await userManager.CreateAsync(users[1], "Courier.123");
+
+            //await dataContext.Users.AddRangeAsync(users);
             await dataContext.Addresses.AddRangeAsync(addresses);
             await dataContext.Cars.AddRangeAsync(cars);
             await dataContext.DeliveryRoutes.AddRangeAsync(deliveryRoutes);

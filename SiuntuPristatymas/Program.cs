@@ -9,6 +9,9 @@ using SiuntuPristatymas.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
+
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -17,8 +20,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddControllersWithViews();
 
 // builder.Services
@@ -29,6 +33,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHostedService<DatabaseInitializationService>();
 
 builder.Services.AddAutoMapper(typeof(DeliveryProfile));
+
+builder.Services.AddScoped<UserManager<ApplicationUser>>();
 
 var app = builder.Build();
 
